@@ -20,12 +20,12 @@ class SetBase:
         self.scanning_thread.start()
 
     def check_stop_condition(self):
-        while self.running:
-            if GPIO.input(self.pin_check) == GPIO.HIGH:
-                self.running = False
-            time.sleep(0.2)
+        try:
+            while self.running:
+                if GPIO.input(self.pin_check) == GPIO.HIGH:
+                    self.running = False
+                time.sleep(0.2)
             
-        '''
         except Exception as e:
             print(e)
             self.root.init_display()
@@ -33,10 +33,7 @@ class SetBase:
             self.root.show()
             time.sleep(3)
             self.root.poweroff()
-        '''
-
         
-#定义设置时钟的类
 class SetClock(SetBase):
     def __init__(self, root, pin_check, pin_change) -> None:
         super().__init__(root, pin_check, pin_change)
@@ -68,8 +65,6 @@ class SetClock(SetBase):
             self.root.show()
             time.sleep(1)
 
- 
-#定义图像展示的类
 class SetImage(SetBase):
     def __init__(self, root, pin_check, pin_change):
         super().__init__(root, pin_check, pin_change)
@@ -79,9 +74,6 @@ class SetImage(SetBase):
         self.root.image(image)
         self.root.show()
 
-     
-
-#定义展示字符的类
 class SetChar:
     def __init__(self, content_file) -> None:
         self.content_file = content_file
@@ -91,36 +83,28 @@ class SetChar:
         
     def char_reset(self, per_words):
         formatted_text = []
-        # 计算需要的行数
         num_rows = (len(self.text) + per_words - 1) // per_words
         for i in range(num_rows):
-            # 计算每行的起始和结束索引
             start_index = i * per_words
             end_index = min((i + 1) * per_words, len(self.text))
-            # 如果当前行的单词数量超过per_words，则分配到两行
             if end_index - start_index > per_words:
-                # 分配到第一行的单词数量
                 first_line_words = self.text[start_index:start_index + per_words - 1]
-                # 分配到第二行的单词数量，包括剩余的所有单词
                 second_line_words = self.text[start_index + per_words - 1:end_index]
-                # 将两行添加到结果列表中
                 formatted_text.append(' '.join(first_line_words))
                 formatted_text.append(' '.join(second_line_words))
             else:
-                # 如果当前行的单词数量不超过per_words，直接添加
                 formatted_text.append(' '.join(self.text[start_index:end_index]))
         result = '\n'.join(formatted_text)
         return result
 
 if __name__ == '__main__':
 
-
     i2c = board.I2C()
     disp = SSD1306_I2C(128,64,i2c)
     width = disp.width
     height = disp.height
 
-    a = SetChar(text_wangjiao)
+    a = SetChar(text_intro)
     new_a = a.char_reset(3)
     disp.text(new_a,0,0,font_name=font_bin5x8,color=255)
     disp.show()
