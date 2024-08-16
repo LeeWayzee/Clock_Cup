@@ -49,7 +49,7 @@ try:
             index_function = 1
             
         if index_function == 1:
-            words_list = [text_intro,text_wangjiao]
+            words_list = [text_intro]
 
             if GPIO.input(pin_switch) == GPIO.HIGH:
                 index_text = (index_text + 1) % len(words_list)
@@ -66,7 +66,7 @@ try:
                 screen.show()
         
         elif index_function == 2:
-            image_paths = [image_python_logo,image_kust,image_me,image_wangjiao,image_you_and_me]
+            image_paths = [image_python_logo,image_kust,image_me]
             
             if GPIO.input(pin_switch) == GPIO.HIGH:
                 
@@ -81,10 +81,6 @@ try:
             if GPIO.input(pin_switch) == GPIO.HIGH:
                 clock.run_clock()
                 
-                
-                
-                
-            
 except KeyboardInterrupt:
     print('end...')
 
