@@ -41,14 +41,9 @@ font_bin5x8 = 'font_lib/font5x8.bin'
 image_kust = 'photos/KUST.jpeg'
 image_me = 'photos/Me.jpeg'
 image_python_logo = 'photos/PythonLogo.jpeg'
-image_wangjiao = 'photos/Wangjiao.jpeg'
-image_you_and_me = 'photos/YouNme.jpeg'
 
 #设置文本路径
-
 text_intro = 'content/Intro.txt'
-text_wangjiao = 'content/ToWangjiao.txt'
-
 
 if __name__ == '__main__':
     print(font_default)
